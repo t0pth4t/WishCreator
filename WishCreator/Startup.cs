@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using WishCreator.Services;
 
 namespace WishCreator
 {
@@ -16,6 +18,8 @@ namespace WishCreator
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +28,7 @@ namespace WishCreator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddTransient<ISearchService, SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
