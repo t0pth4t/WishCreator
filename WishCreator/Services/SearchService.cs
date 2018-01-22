@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.AzureAppServices.Internal;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WishCreator.Models;
 
 namespace WishCreator.Services
@@ -19,6 +21,12 @@ namespace WishCreator.Services
         {
             
             var testdata = File.ReadAllText("testdata.json");
+            var result = JObject.Parse(testdata);
+            var jsonResult = result.SelectToken("jsonResult").ToString();
+            JToken token = JToken.Parse(jsonResult);
+            JObject data = JObject.Parse(token.ToString());
+            var webPages = data.SelectToken("webPages");
+            var resul = JsonConvert.DeserializeObject<RootObject>(webPages.ToString());
             return new SearchResult
             {
                 JsonResult = testdata,
